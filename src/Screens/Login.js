@@ -1,10 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
+import {
+  TextInput,
+  Button,
+  ActivityIndicator,
+  Colors,
+} from 'react-native-paper';
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
-export const Login = () => {
+import { baseURL } from '../../assets/common/baseUrl';
+
+export const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const validation = () => {
+    if (email === '' || password === '') {
+      Toast.show({
+        topOffset: 60,
+        type: 'error',
+        text1: 'Please enter credentials',
+        text2: 'Please try again',
+      });
+      return '';
+    }
+  };
+
+  const apiRequest = async () => {
+    const body = {
+      email,
+      password,
+    };
+    try {
+      const res = await axios.post(baseURL, body);
+      if (res.status === 200) {
+        AsyncStorage.setItem('token', res.data.token);
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      Toast.show({
+        topOffset: 60,
+        type: 'error',
+        text1: 'User not authorized',
+        text2: 'Please try again',
+      });
+    }
+  };
+
+  const login = () => {
+    if (validation() === '') return;
+    apiRequest();
+  };
 
   return (
     <View style={{ flex: 1, marginTop: 150, alignSelf: 'center' }}>
@@ -34,7 +83,7 @@ export const Login = () => {
           style={{ width: 150 }}
           icon='login'
           mode='contained'
-          onPress={() => console.log('Pressed')}
+          onPress={login}
         >
           Login
         </Button>
