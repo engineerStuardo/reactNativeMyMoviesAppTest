@@ -6,6 +6,7 @@ import { apiSearchURL } from '../../assets/common/baseUrl';
 
 import { MovieList } from '../Screens/Components/MovieList';
 import { SearchHeader } from './Components/SearchHeader';
+import { SafeArea } from '../Utility/safe-area-component';
 
 export const Search = ({ route }) => {
   const [results, setResults] = useState();
@@ -23,13 +24,17 @@ export const Search = ({ route }) => {
   }, [text]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <SearchHeader setText={setText} />
-      <FlatList
-        data={results}
-        renderItem={({ item, index }) => <MovieList key={item.id} {...item} />}
-        keyExtractor={item => item.id}
-      />
-    </View>
+    <SafeArea>
+      <View style={{ flex: 1 }}>
+        <SearchHeader setText={setText} />
+        <FlatList
+          data={results}
+          renderItem={({ item, index }) => (
+            <MovieList key={item.id} {...item} />
+          )}
+          keyExtractor={item => item.id}
+        />
+      </View>
+    </SafeArea>
   );
 };

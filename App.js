@@ -5,14 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
 import { MainNavigator } from './src/Navigators/Main';
-import { SafeArea } from './src/Utility/safe-area-component';
 
 export default function App() {
   return (
     <NavigationContainer>
-      <SafeArea>
-        <MainNavigator />
-      </SafeArea>
+      <MainNavigator />
       <Toast ref={ref => Toast.setRef(ref)} />
       <StatusBar style='auto' />
     </NavigationContainer>

@@ -8,6 +8,7 @@ import { API_KEY } from '@env';
 import { apiPopularURL } from '../../assets/common/baseUrl';
 import { MovieList } from './Components/MovieList';
 import { SearchHeader } from './Components/SearchHeader';
+import { SafeArea } from '../Utility/safe-area-component';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -25,13 +26,17 @@ export const Home = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ flex: 1, width: windowWidth }}>
-      <SearchHeader isHome />
-      <FlatList
-        data={movies}
-        renderItem={({ item, index }) => <MovieList key={item.id} {...item} />}
-        keyExtractor={item => item.id}
-      />
-    </View>
+    <SafeArea>
+      <View style={{ flex: 1, width: windowWidth }}>
+        <SearchHeader isHome />
+        <FlatList
+          data={movies}
+          renderItem={({ item, index }) => (
+            <MovieList key={item.id} {...item} />
+          )}
+          keyExtractor={item => item.id}
+        />
+      </View>
+    </SafeArea>
   );
 };
