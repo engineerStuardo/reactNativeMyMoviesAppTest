@@ -1,11 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, Dimensions } from 'react-native';
-import {
-  TextInput,
-  Button,
-  ActivityIndicator,
-  Colors,
-} from 'react-native-paper';
+import React, { useState, useCallback } from 'react';
+import { View, Dimensions } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +9,7 @@ import LottieView from 'lottie-react-native';
 import styled from 'styled-components/native';
 
 import { baseURL } from '../../assets/common/baseUrl';
+import { Loading } from './Components/Loading';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -96,13 +92,17 @@ export const Login = ({ navigation }) => {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator
-          animating={true}
-          color={Colors.orange800}
-          size={'large'}
-        />
-      </View>
+      <AccountBackground>
+        <View
+          style={{
+            width: windowWidth,
+            height: windowHeight,
+            backgroundColor: 'rgba(255, 255, 255, 0.35)',
+          }}
+        >
+          <Loading />
+        </View>
+      </AccountBackground>
     );
   }
 
