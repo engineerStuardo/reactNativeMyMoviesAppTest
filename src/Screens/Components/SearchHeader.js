@@ -18,7 +18,12 @@ export const SearchHeader = ({ isHome, setText }) => {
         setSearch={setSearch}
         setText={setText}
       />
-      <IconButtonSearch search={search} isHome={isHome} />
+      <IconButtonSearch
+        search={search}
+        isHome={isHome}
+        setSearch={setSearch}
+        setText={setText}
+      />
     </SearchHeaderContainer>
   );
 };

@@ -3,7 +3,7 @@ import { IconButton } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
-export const IconButtonSearch = ({ isHome, search }) => {
+export const IconButtonSearch = ({ isHome, search, setSearch, setText }) => {
   const navigation = useNavigation();
 
   return (

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, FlatList, Dimensions } from 'react-native';
 import axios from 'axios';
 import { API_KEY } from '@env';
+import { Button } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { apiPopularURL } from '../../assets/common/baseUrl';
 import { MovieList } from './Components/MovieList';
@@ -34,10 +36,26 @@ export const Home = ({ navigation }) => {
     requestApi();
   }, []);
 
+  const logout = () => {
+    AsyncStorage.removeItem('token')
+      .then(res => {
+        navigation.navigate('Login');
+      })
+      .catch(error => console.log(error));
+  };
+
   return (
     <SafeArea>
       <View style={{ flex: 1, width: windowWidth }}>
         <SearchHeader isHome />
+        <Button
+          style={{ margin: 20, marginTop: 0, backgroundColor: '#F17835' }}
+          icon='logout'
+          mode='contained'
+          onPress={logout}
+        >
+          Logout
+        </Button>
         {loading ? (
           <Loading />
         ) : (
