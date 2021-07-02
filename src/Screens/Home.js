@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput, IconButton, Colors } from 'react-native-paper';
+import axios from 'axios';
+import { API_KEY, API_URL } from '@env';
 
 export const Home = ({ navigation }) => {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    AsyncStorage.getItem('token')
-      .then(token => {
-        console.log('This is the token: ' + token);
+    //https://api.themoviedb.org/3/movie/popular?api_key=949eb751d5ca24f1d34b3041669ce02f&language=en-US&page=1
+    axios
+      .get(`${API_URL}${API_KEY}&language=en-US&page=1`)
+      .then(res => {
+        console.log(res.request._response);
       })
       .catch(error => console.log(error));
   }, []);
