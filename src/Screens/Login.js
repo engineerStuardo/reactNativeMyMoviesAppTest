@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import {
   TextInput,
   Button,
@@ -12,6 +12,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { baseURL } from '../../assets/common/baseUrl';
+
+const windowWidth = Dimensions.get('window').width;
 
 export const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -31,7 +33,7 @@ export const Login = ({ navigation }) => {
 
   const apiRequest = async () => {
     const body = {
-      email,
+      email: email.toLowerCase(),
       password,
     };
     try {
@@ -59,7 +61,7 @@ export const Login = ({ navigation }) => {
     <View style={{ flex: 1, marginTop: 150, alignSelf: 'center' }}>
       <View
         style={{
-          width: 350,
+          width: windowWidth / 1.3,
           backgroundColor: 'white',
           padding: 40,
         }}
@@ -79,14 +81,16 @@ export const Login = ({ navigation }) => {
           onChangeText={text => setPassword(text)}
           secureTextEntry={true}
         />
-        <Button
-          style={{ width: 150 }}
-          icon='login'
-          mode='contained'
-          onPress={login}
-        >
-          Login
-        </Button>
+        <View style={{ alignSelf: 'center' }}>
+          <Button
+            style={{ width: 150 }}
+            icon='login'
+            mode='contained'
+            onPress={login}
+          >
+            Login
+          </Button>
+        </View>
       </View>
     </View>
   );

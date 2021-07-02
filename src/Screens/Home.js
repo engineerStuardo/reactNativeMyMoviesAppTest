@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Text, FlatList, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput, IconButton, Colors } from 'react-native-paper';
 import axios from 'axios';
 import { API_KEY, API_URL } from '@env';
 
+import { MovieList } from './Components/MovieList';
+
+const windowWidth = Dimensions.get('window').width;
+
 export const Home = ({ navigation }) => {
   const [search, setSearch] = useState('');
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    //https://api.themoviedb.org/3/movie/popular?api_key=949eb751d5ca24f1d34b3041669ce02f&language=en-US&page=1
     axios
       .get(`${API_URL}${API_KEY}&language=en-US&page=1`)
       .then(res => {
-        console.log(res.request._response);
+        const response = JSON.parse(res.request._response);
+        setMovies(response.results);
       })
       .catch(error => console.log(error));
   }, []);
 
   return (
-    <View>
+    <View style={{ flex: 1, width: windowWidth }}>
       <View
         style={{
+          width: windowWidth,
           flexDirection: 'row',
           padding: 20,
           justifyContent: 'space-between',
@@ -29,7 +35,7 @@ export const Home = ({ navigation }) => {
         }}
       >
         <TextInput
-          style={{ width: 300, height: 55 }}
+          style={{ width: '80%', height: 55 }}
           label='Search'
           value={search}
           onChangeText={text => setSearch(text)}
@@ -41,6 +47,11 @@ export const Home = ({ navigation }) => {
           onPress={() => console.log('Pressed')}
         />
       </View>
+      <FlatList
+        data={movies}
+        renderItem={({ item, index }) => <MovieList {...item} />}
+        keyExtractor={item => item.id}
+      />
     </View>
   );
 };
