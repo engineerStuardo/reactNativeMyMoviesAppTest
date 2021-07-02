@@ -38,6 +38,7 @@ export const Home = ({ navigation }) => {
           <Loading />
         ) : (
           <FlatList
+            style={{ backgroundColor: 'white' }}
             data={movies}
             renderItem={({ item, index }) => (
               <MovieList key={item.id} {...item} />

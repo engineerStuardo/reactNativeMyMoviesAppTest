@@ -40,6 +40,7 @@ export const Search = ({ route }) => {
           <Loading />
         ) : (
           <FlatList
+            style={{ backgroundColor: 'white' }}
             data={results}
             renderItem={({ item, index }) => (
               <MovieList key={item.id} {...item} />

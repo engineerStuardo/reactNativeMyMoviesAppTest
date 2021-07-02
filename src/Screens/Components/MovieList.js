@@ -11,7 +11,7 @@ export const MovieList = ({
 }) => {
   return (
     <View style={{ margin: 25 }}>
-      <Card>
+      <Card style={{ elevation: 10 }}>
         <Card.Cover
           style={{ height: 500, resizeMode: 'contain' }}
           source={{
