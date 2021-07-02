@@ -7,11 +7,11 @@ import { API_KEY } from '@env';
 
 import { apiPopularURL } from '../../assets/common/baseUrl';
 import { MovieList } from './Components/MovieList';
+import { SearchHeader } from './Components/SearchHeader';
 
 const windowWidth = Dimensions.get('window').width;
 
 export const Home = ({ navigation }) => {
-  const [search, setSearch] = useState('');
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -26,28 +26,7 @@ export const Home = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, width: windowWidth }}>
-      <View
-        style={{
-          width: windowWidth,
-          flexDirection: 'row',
-          padding: 20,
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <TextInput
-          style={{ width: '80%', height: 55 }}
-          label='Search'
-          value={search}
-          onChangeText={text => setSearch(text)}
-        />
-        <IconButton
-          icon='calendar-search'
-          color={Colors.red500}
-          size={30}
-          onPress={() => navigation.navigate('Search', { text: search })}
-        />
-      </View>
+      <SearchHeader isHome />
       <FlatList
         data={movies}
         renderItem={({ item, index }) => <MovieList key={item.id} {...item} />}

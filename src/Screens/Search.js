@@ -5,10 +5,11 @@ import axios from 'axios';
 import { apiSearchURL } from '../../assets/common/baseUrl';
 
 import { MovieList } from '../Screens/Components/MovieList';
+import { SearchHeader } from './Components/SearchHeader';
 
 export const Search = ({ route }) => {
   const [results, setResults] = useState();
-  const text = route.params.text;
+  const [text, setText] = useState(route.params.text);
 
   const apiRequest = () => {
     axios
@@ -19,10 +20,11 @@ export const Search = ({ route }) => {
 
   useEffect(() => {
     apiRequest();
-  }, []);
+  }, [text]);
 
   return (
     <View style={{ flex: 1 }}>
+      <SearchHeader setText={setText} />
       <FlatList
         data={results}
         renderItem={({ item, index }) => <MovieList key={item.id} {...item} />}
