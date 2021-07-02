@@ -9,23 +9,24 @@ import { SearchHeader } from './Components/SearchHeader';
 import { SafeArea } from '../Utility/safe-area-component';
 import { Loading } from './Components/Loading';
 import { NotFound } from './Components/NotFound';
+import { TextContainer } from './Styles/SearchStyles';
 
 export const Search = ({ route }) => {
   const [results, setResults] = useState();
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState(route.params.text);
 
-  const apiRequest = () => {
-    axios
-      .get(`${apiSearchURL}${text.toLowerCase()}&page=1&include_adult=false`)
-      .then(res => {
-        setResults(res.data.results);
-        setLoading(false);
-      })
-      .catch(err => {
-        setLoading(false);
-        console.log(err);
-      });
+  const apiRequest = async () => {
+    try {
+      const res = await axios.get(
+        `${apiSearchURL}${text.toLowerCase()}&page=1&include_adult=false`
+      );
+      setResults(res.data.results);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -37,19 +38,12 @@ export const Search = ({ route }) => {
     <SafeArea>
       <View style={{ flex: 1 }}>
         <SearchHeader setText={setText} />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignSelf: 'center',
-            margin: 10,
-            alignItems: 'center',
-          }}
-        >
+        <TextContainer>
           <Text style={{ fontSize: 15 }}>Search movie: </Text>
           <Text style={{ fontSize: 15, color: '#F17835' }}>
             {text.toUpperCase()}
           </Text>
-        </View>
+        </TextContainer>
         {loading ? (
           <Loading />
         ) : results.length === 0 ? (
@@ -61,7 +55,7 @@ export const Search = ({ route }) => {
             renderItem={({ item, index }) => (
               <MovieList key={item.id} {...item} />
             )}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
           />
         )}
       </View>

@@ -6,21 +6,21 @@ import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import styled from 'styled-components/native';
 
 import { baseURL } from '../../assets/common/baseUrl';
 import { Loading } from './Components/Loading';
+import { LoginInputs } from './Components/LoginInputs';
+import {
+  AccountBackground,
+  TransparentContainer,
+  MainContainer,
+  LottieViewContainer,
+  FormContainer,
+  FormInnerContainer,
+} from './Styles/LoginStyles';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
-export const AccountBackground = styled.ImageBackground.attrs({
-  source: require('../../assets/background.jpg'),
-})`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`;
 
 export const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -72,70 +72,39 @@ export const Login = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       setLoading(true);
-      // AsyncStorage.removeItem('token')
-      //   .then(res => {
-      //     AsyncStorage.getItem('token')
-      //       .then(res => {
-      //         console.log(res);
-      //         setLoading(false);
-      //       })
-      //       .catch(error => console.log(error));
-      //   })
-      //   .catch(error => console.log(error));
-      AsyncStorage.getItem('token')
+      AsyncStorage.removeItem('token')
         .then(res => {
-          res ? navigation.navigate('Home') : setLoading(false);
+          AsyncStorage.getItem('token')
+            .then(res => {
+              console.log(res);
+              setLoading(false);
+            })
+            .catch(error => console.log(error));
         })
         .catch(error => console.log(error));
+      // AsyncStorage.getItem('token')
+      //   .then(res => {
+      //     res ? navigation.navigate('Home') : setLoading(false);
+      //   })
+      //   .catch(error => console.log(error));
     }, [])
   );
 
   if (loading) {
     return (
       <AccountBackground>
-        <View
-          style={{
-            width: windowWidth,
-            height: windowHeight,
-            backgroundColor: 'rgba(255, 255, 255, 0.35)',
-          }}
-        >
+        <TransparentContainer windowWidth={windowHeight}>
           <Loading />
-        </View>
+        </TransparentContainer>
       </AccountBackground>
     );
   }
 
   return (
     <AccountBackground>
-      <View
-        style={{
-          width: windowWidth,
-          height: windowHeight,
-          backgroundColor: 'rgba(255, 255, 255, 0.35)',
-        }}
-      >
-        <View
-          style={{
-            flex: 1,
-            // alignItems: 'center',
-            // justifyContent: 'center',
-            // height: windowHeight / 3,
-            // backgroundColor: 'orange',
-
-            marginTop: windowHeight / 9,
-            paddingTop: windowHeight / 135,
-          }}
-        >
-          <View
-            style={{
-              width: 150,
-              height: 150,
-              position: 'absolute',
-              top: '6.5%',
-              left: '33%',
-            }}
-          >
+      <TransparentContainer windowWidth={windowHeight}>
+        <MainContainer windowHeight={windowHeight}>
+          <LottieViewContainer>
             <LottieView
               key='animation'
               autoPlay
@@ -143,46 +112,20 @@ export const Login = ({ navigation }) => {
               resizeMode='cover'
               source={require('../../assets/movie.json')}
             />
-          </View>
-          <View style={{ flex: 1, marginTop: 165, alignSelf: 'center' }}>
-            <View
-              style={{
-                width: windowWidth / 1.3,
-                backgroundColor: 'white',
-                padding: 40,
-                backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              }}
-            >
-              {/* <Text style={{ fontSize: 20, marginBottom: 20 }}>Login</Text> */}
-              <TextInput
-                style={{ marginBottom: 25 }}
-                label='Email'
-                value={email}
-                onChangeText={text => setEmail(text)}
-                keyboardType={'email-address'}
+          </LottieViewContainer>
+          <FormContainer>
+            <FormInnerContainer windowWidth={windowHeight}>
+              <LoginInputs
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                login={login}
               />
-              <TextInput
-                style={{ marginBottom: 25 }}
-                label='Password'
-                value={password}
-                onChangeText={text => setPassword(text)}
-                secureTextEntry={true}
-                onSubmitEditing={login}
-              />
-              <View style={{ alignSelf: 'center' }}>
-                <Button
-                  style={{ width: 150 }}
-                  icon='login'
-                  mode='contained'
-                  onPress={login}
-                >
-                  Login
-                </Button>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
+            </FormInnerContainer>
+          </FormContainer>
+        </MainContainer>
+      </TransparentContainer>
     </AccountBackground>
   );
 };

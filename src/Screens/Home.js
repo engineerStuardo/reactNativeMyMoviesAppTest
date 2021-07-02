@@ -15,19 +15,23 @@ export const Home = ({ navigation }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const requestApi = async () => {
+    try {
+      const res = await axios.get(
+        `${apiPopularURL}${API_KEY}&language=en-US&page=1`
+      );
+      const response = await JSON.parse(res.request._response);
+      setMovies(response.results);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`${apiPopularURL}${API_KEY}&language=en-US&page=1`)
-      .then(res => {
-        const response = JSON.parse(res.request._response);
-        setMovies(response.results);
-        setLoading(false);
-      })
-      .catch(error => {
-        setLoading(false);
-        console.log(error);
-      });
+    requestApi();
   }, []);
 
   return (
@@ -43,7 +47,7 @@ export const Home = ({ navigation }) => {
             renderItem={({ item, index }) => (
               <MovieList key={item.id} {...item} />
             )}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
           />
         )}
       </View>
