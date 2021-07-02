@@ -6,6 +6,7 @@ export const NotFound = () => (
   <View
     style={{
       flex: 1,
+      backgroundColor: 'white',
     }}
   >
     <LottieView
