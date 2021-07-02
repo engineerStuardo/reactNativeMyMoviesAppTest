@@ -37,6 +37,19 @@ export const Search = ({ route }) => {
     <SafeArea>
       <View style={{ flex: 1 }}>
         <SearchHeader setText={setText} />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignSelf: 'center',
+            margin: 10,
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ fontSize: 15 }}>Search movie: </Text>
+          <Text style={{ fontSize: 15, color: '#F17835' }}>
+            {text.toUpperCase()}
+          </Text>
+        </View>
         {loading ? (
           <Loading />
         ) : results.length === 0 ? (
