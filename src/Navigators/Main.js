@@ -28,7 +28,7 @@ export const MainNavigator = () => {
         name='Search'
         component={Search}
         options={{
-          headerShown: false,
+          title: 'Search Movie',
         }}
       />
     </Stack.Navigator>
