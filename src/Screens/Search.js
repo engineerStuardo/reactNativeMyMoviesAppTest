@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import axios from 'axios';
 
 import { apiSearchURL } from '../../assets/common/baseUrl';
@@ -8,6 +8,7 @@ import { MovieList } from '../Screens/Components/MovieList';
 import { SearchHeader } from './Components/SearchHeader';
 import { SafeArea } from '../Utility/safe-area-component';
 import { Loading } from './Components/Loading';
+import { NotFound } from './Components/NotFound';
 
 export const Search = ({ route }) => {
   const [results, setResults] = useState();
@@ -38,6 +39,8 @@ export const Search = ({ route }) => {
         <SearchHeader setText={setText} />
         {loading ? (
           <Loading />
+        ) : results.length === 0 ? (
+          <NotFound />
         ) : (
           <FlatList
             style={{ backgroundColor: 'white' }}

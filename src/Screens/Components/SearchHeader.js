@@ -27,6 +27,7 @@ export const SearchHeader = ({ isHome, setText }) => {
         label='Search'
         value={search}
         onChangeText={text => setSearch(text)}
+        theme={{ colors: { primary: '#F17835' } }}
         onSubmitEditing={() => {
           if (!search) {
             Toast.show({
@@ -45,7 +46,7 @@ export const SearchHeader = ({ isHome, setText }) => {
       />
       <IconButton
         icon='calendar-search'
-        color={Colors.red500}
+        color={'#F17835'}
         size={30}
         onPress={() => {
           if (!search) {

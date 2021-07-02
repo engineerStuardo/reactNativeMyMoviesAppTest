@@ -72,21 +72,21 @@ export const Login = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       setLoading(true);
-      AsyncStorage.removeItem('token')
-        .then(res => {
-          AsyncStorage.getItem('token')
-            .then(res => {
-              console.log(res);
-              setLoading(false);
-            })
-            .catch(error => console.log(error));
-        })
-        .catch(error => console.log(error));
-      // AsyncStorage.getItem('token')
+      // AsyncStorage.removeItem('token')
       //   .then(res => {
-      //     res ? navigation.navigate('Home') : setLoading(false);
+      //     AsyncStorage.getItem('token')
+      //       .then(res => {
+      //         console.log(res);
+      //         setLoading(false);
+      //       })
+      //       .catch(error => console.log(error));
       //   })
       //   .catch(error => console.log(error));
+      AsyncStorage.getItem('token')
+        .then(res => {
+          res ? navigation.navigate('Home') : setLoading(false);
+        })
+        .catch(error => console.log(error));
     }, [])
   );
 
